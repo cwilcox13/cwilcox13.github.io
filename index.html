@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Cwilcox13.github.io : This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland." />
+    <meta name="description" content="Curtis's Frontleaf Blog : This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Cwilcox13.github.io</title>
+    <title>Curtis's Frontleaf Blog</title>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/cwilcox13">View on GitHub</a>
 
-          <h1 id="project_title">Cwilcox13.github.io</h1>
+          <h1 id="project_title">Curtis's Frontleaf Blog</h1>
           <h2 id="project_tagline">This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland.</h2>
 
         </header>
@@ -27,7 +27,86 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>One of the many important things I am learning as an intern at Frontleaf is about AngularJS. AngularJS is a JavaScript library that allows developers to configure HTML to change dynamically according to specific data; this makes it very suitable for web applications.</p>
+        <h1>
+<a name="july-11-2013" class="anchor" href="#july-11-2013"><span class="octicon octicon-link"></span></a>July 11, 2013</h1>
+
+<p>As an intern at Frontleaf, I am learning a lot; one of the extremely important things I am learning about is unit testing. As a computer engineering major, I have learned what unit testing is, but I have never really had any experience in how to actually go about writing and running unit tests. It is a very useful skill to know, and it is quite helpful when developing a project.</p>
+
+<p>A unit test is developed in order to test a specific piece of functionality in your project. It is basically a piece of code that runs this functionality in order to very that your code is working the way it is supposed to. This is in contrast to something like an integration test or an end-to-end test, which would test a larger part, or even all, of your code to make sure each component is working correctly with the others. Unit tests are specifically for one small feature; for example, I recently wrote a unit test (albeit not in the format we will be discussing in this piece) to verify that a percent sign '%' would be added on to specific types in my HTML table. Not a huge deal, but useful in that it makes sure that my code does what I want it to do, and it will continue to do so even if I make modifications to that code or code somewhere else in my program. It is also a time saver; instead of manually testing things after I make changes, I simply have to run the unit test I have created.</p>
+
+<p>There are different ways to create unit tests depending on what language you are writing in. The first type of unit testing we will look at is called JUnit. This is a unit testing framework for the Java programming language. It is something that I have begun to learn about, as some of my programming is done in Java. JUnit is nice to use in a Java IDE like Eclipse, which I will be assuming we are using in this piece.</p>
+
+<p>Typically, JUnit tests should be created in a separate package or source folder from the actual parts of the program. This makes it easier to manage since they are separate from the actual code. </p>
+
+<p>In order to create JUnit tests, we should create a class to hold these tests. This class should be created separately from any classes in the source code and should be used only for testing purposes. This is called a test class. Test classes can be created in a couple of different ways. One way is to simply create the test class manually. Another way is to create the test class using a JUnit wizard under File-&gt;New-&gt;Other-&gt;Java-&gt;Unit. A third way is to simply right-click on a package or class in your package explorer view in Eclipse, and select New-&gt;JUnit Test Case. </p>
+
+<p>After we create our test class, we can add test methods to our test class. A test method typically corresponds to a unit test. However, there are a couple specific things that need to be included in the test method for JUnit to recognize it as a unit test. Here is a very simple example of a JUnit test:</p>
+
+<pre><code>@Test
+public void myTest(){
+    Class1 newClass = new Class1();
+    assertEquals("should return 1", 1, newClass.method1());
+} 
+</code></pre>
+
+<p>First, let's note the annotation '<a href="https://github.com/Test" class="user-mention">@Test</a>' at the beginning. This tells JUnit that the method following the <a href="https://github.com/Test" class="user-mention">@Test</a> annotation will be a test method. There are other annotations as well, which I will go into shortly. Next, notice that the test method is written much like a regular method would be. Finally, let's note the 'assertEquals()' at the end of the method. This is a JUnit assert statement. Assert statements are provided by JUnit to allow you to check for certain conditions in your test method. We will go into these shortly as well.  </p>
+
+<p>Now that we have seen a simple test method, let's look at some of the annotations for JUnit. Remember, annotations are put at the beginning of a test method in order to tell JUnit what kind of test method it is.</p>
+
+<p><a href="https://github.com/Test" class="user-mention">@Test</a> says it is a regular test method, and the method must be public void. </p>
+
+<p><a href="https://github.com/Before" class="user-mention">@Before</a> denotes a method that should be done before each test method. This can be used to initialize classes or any data that needs to be ready for the actual test method. A <a href="https://github.com/Before" class="user-mention">@Before</a> method must be public void. </p>
+
+<p><a href="https://github.com/After" class="user-mention">@After</a> denotes a method that should be done after each test method. This can be used to delete any data that needs to be cleaned up after a test method runs. This must also be public void.</p>
+
+<p>There are other annotations as well, but these three are a good starting point for learning about JUnit.</p>
+
+<p>Now let's take a look at some of the JUnit assert statements. Remember, assert statements are JUnit's way of helping us ensure that our test methods are running correctly. These usually start with 'assert' and then let you add an error message, an expected result, and the variable or function that will return the actual result. This allows us to compare the expected result with the actual result. It is important to note the importance of error messages; the more specific the error message, the easier it may be for a debugger to figure out what the error actually is in your code. Here are a couple of probably the most commonly used assert statements.</p>
+
+<p>assertEquals("error message",expected,actual); This will allow us to take an actual value and determine whether it is equal to our expected value, or what we want. If it is not, it will give us the error message. 
+assertTrue("error message",boolean); This will allow us to ensure that a specific boolean condition we are checking for is true.</p>
+
+<p>assertNull/assertNotNull("error message",object); This will allow us to see whether some sort of object is null or not.</p>
+
+<p>There are other assert statements as well, but these are a good starting point.</p>
+
+<p>So how do we actually run a test class? In order to do this in Eclipse, all you have to do is right-click on the test class, either in the package explorer or in your program window, and select Run-&gt;Run As-&gt;JUint Test. This will run all the test methods in your test class and tell you the results. Your results are shown to you in something called the JUnit view, which can either show up in its own window or as another tab next to the package explorer. You can view test failures and successes and rerun tests in this view. You can also edit this view to only show failing tests, if you wish. If any methods in the test class fail, a red bar will appear. If all the methods pass, a green bar will appear. If we see green, we know that our tests are working correctly, and can take ease in the fact that if we use this feature somewhere else, it will work as it should. </p>
+
+<p>One thing we haven't gone through yet is how to import all of these different portions of JUnit into our test classes. Do do this, we need to import packages starting with 'org.junit'. Different assertion statements need to be imported as static, like this: 'import static org.junit.Assert.assertEquals'. Different test annotations must be imported like this: 'import org.junit.Test'. Obviously, in order to be able to use specific annotations and assertion statements, you must import the corresponding packages.</p>
+
+<p>Another interesting thing about JUnit is the ability to use rules in your test methods. To do this, we implement the <a href="https://github.com/Rule" class="user-mention">@Rule</a> annotation in front of any rules we create. Rules can simply be objects that you create in order to use them or change them during the course of your test method.</p>
+
+<p>There may be instances where you have many test classes, with one or multiple test methods in them. If this is the case, you may want to run all of these classes at once, for one reason or another. If you do, you can create a test suite that holds all these different test classes. If you run an entire test suite, it will run all the test classes, and in turn, all the test methods, contained within it. To create a test suite, we must first import certain packages:</p>
+
+<pre><code>import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+</code></pre>
+
+<p>Next, we have to make certain annotations:</p>
+
+<pre><code>@RunWith(Suite.class)
+@SuiteClasses({class1.class, class2.class})
+</code></pre>
+
+<p>This specifies that class1 and class2 are both included in the test suite. </p>
+
+<p>Another important feature to note about JUnit is the order in which tests are executed. Test methods in a test class are executed in a fairly random order, which means that you should not create tests that are dependent on other tests, or they may not work correctly.</p>
+
+<p>What if we want to test our exceptions? Sometimes if something happens that is not allowed in our program, we will make it throw an exception; this tells the user or developer that they cannot do what they tried to do. It is important to make sure that these exceptions happen correctly as well, so we can write unit tests for them. We can do that by using the 'expected' parameter:</p>
+
+<pre><code>@Test(expected = someException)
+public void test1()...
+</code></pre>
+
+<p>The expected parameter tells JUnit that we are expecting some sort of exception to be thrown as this test is executed. 'someException' would obviously have to be replaced by whatever type of exception you are expecting to receive, such as IndexOutOfBoundsException.class. If this exception happens anywhere in your test, then the test will pass. If the exception does not happen anywhere in the test, the test will fail.</p>
+
+<p>JUnit tests are very useful when working with Eclipse; they allow a developer to more easily and thoroughly check their code to make sure it is working correctly. It is important to note the importance of actually writing tests for various features of your code. It is one thing to know how to write tests, and it is another to actually go about the practice of doing it. It can really help in the long run.</p>
+
+<h1>
+<a name="july-11-2013-1" class="anchor" href="#july-11-2013-1"><span class="octicon octicon-link"></span></a>July 11, 2013</h1>
+
+<p>One of the many important things I am learning as an intern at Frontleaf is about AngularJS. AngularJS is a JavaScript library that allows developers to configure HTML to change dynamically according to specific data; this makes it very suitable for web applications.</p>
 
 <p>A significant aspect of AngularJS is routing. Routing allows you to have multiple views on your web application. This behaves much like clicking a hyperlink on a regular web page; however, in Angular, clicking a link may take you to another view, but the web page itself will not reload. Any views having to do with your web application are already loaded, and will be served up whenever they are called. These different views are called routes in Angular, and the general way to implement these routes is with the $routeProvider. However, I have been learning about another way to implement routes called ui-router.</p>
 
