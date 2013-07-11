@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Cwilcox13.github.io : This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cwilcox13.github.io</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/cwilcox13">View on GitHub</a>
+
+          <h1 id="project_title">Cwilcox13.github.io</h1>
+          <h2 id="project_tagline">This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland.</h2>
+
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>One of the many important things I am learning as an intern at Frontleaf is about AngularJS. AngularJS is a JavaScript library that allows developers to configure HTML to change dynamically according to specific data; this makes it very suitable for web applications.</p>
+
+<p>A significant aspect of AngularJS is routing. Routing allows you to have multiple views on your web application. This behaves much like clicking a hyperlink on a regular web page; however, in Angular, clicking a link may take you to another view, but the web page itself will not reload. Any views having to do with your web application are already loaded, and will be served up whenever they are called. These different views are called routes in Angular, and the general way to implement these routes is with the $routeProvider. However, I have been learning about another way to implement routes called ui-router.</p>
+
+<p>Ui-router works by using the $stateProvider instead of the $routeProvider. A state is essentially a spot or an area in your web page that you can get to through navigation of the UI. A state describes what that specific area looks like, and what it does. An important feature of states is that they can be nested, which I will discuss later. </p>
+
+<p>In order to start working with states, we have to do a few things. First, we have to include the ui-view attribute in our HTML, like this:</p>
+
+<pre><code>&lt;div ui-view&gt;&lt;/div&gt;
+</code></pre>
+
+<p>This will cause any different states that we have to show up in this div automatically. </p>
+
+<p>Next, we need to include our $stateProvider in our .js file corresponding to our HTML. The $stateProvider will basically tell us what states that we have. Here is one of the easiest ways to do this:</p>
+
+<pre><code>$stateProvider.state('stateName', {
+    templateUrl: 'state.html'
+}); 
+</code></pre>
+
+<p>In this command, we add a new state, give it a name ('stateName'), and tell the state where to go ('state.html'). This is called setting the template. Basically, this tells us that when the state changes to 'stateName', then state.html will be inserted into the ui-view div that we created earlier. Because of this, state.html is what is known as a 'partial'. We can also set the template by calling a function that returns a url, or by simply writing HTML directly into the $stateProvider. We can create many different states in this way if we wish to. </p>
+
+<p>Another way we can deal with creating states is to first create them as objects, then use $stateProvider, like this:</p>
+
+<pre><code>var state1 = {
+    name: 'state1',
+    templateUrl: 'state1.html'
+}
+
+$stateProvider.state(state1);
+</code></pre>
+
+<p>This does the same thing as before, but shows another way to do it. Keep in mind that if you do it this way, you have to specify the 'parent:' property of any child states you create. We will discuss parent states in a bit.</p>
+
+<p>One of the main points of the $stateProvider is that we can make different parts of our web application change without making the whole page change. Right now, we have a state and a div in which to put the state, but how do we actually get it to change? Here's how:</p>
+
+<pre><code>function MyController($state){
+    $state.transitionTo('stateName')
+};
+</code></pre>
+
+<p>We can add a controller that uses the command $state.transitionTo(). This tells the $stateProvider to change the state to whatever is included as a parameter. We can also set the $state.transitionTo() command to happen on certain events, such as when a specific button is clicked. </p>
+
+<p>However, this won't work yet. First, we need to specify the controller that is used by the 'stateName' state:</p>
+
+<pre><code>    $stateProvider.state('stateName', {
+        templateUrl: 'state.html'
+        controller: 'MyController'
+    });
+</code></pre>
+
+<p>Now we have a state, a place for the state to go, and a controller for the state.</p>
+
+<p>Another important thing we can add to our $stateProvider is resolve. Resolve allows us to add data to a state that is specific to that particular state. This data may be dependent on data and functions outside the state, but once it is resolved for a particular state, it can be used in that state and in any of its child states. You can add resolve like this:</p>
+
+<pre><code>    $stateProvider.state('stateName', {
+        templateUrl: 'state.html'
+        controller: 'MyController'
+        resolve: {stateData: "This is a state"}
+    });
+</code></pre>
+
+<p>This provides a variable called stateData to stateName that holds the string "This is a state".</p>
+
+<p>As I mentioned before, you can nest states within each other. One easy way to do this is with dot syntax:</p>
+
+<pre><code>$stateProvider
+    .state('state1',{})
+    .state('state1.state1a',{});
+</code></pre>
+
+<p>This makes state1a the child of state1. You can also use the parent attribute:</p>
+
+<pre><code>$stateProvider
+    .state('state1',{})
+    .state('state1a',{
+        parent: 'state1'
+    });
+</code></pre>
+
+<p>This does the same thing as the piece of code above. Remember that if we declare our states as objects first, we MUST include the parent property. </p>
+
+<p>So how do nested states actually work? When a state has been transitioned to, it is current, or active. If the current state is a child state, that means its parent is also active at the same time. A child state will load whatever template it has set into its parent's ui-view, which means that any parent state must have a ui-view set in their template. A child state will also inherit properties from its parent state. It is possible to create something called an abstract state, which is a state that will not actually ever be transitioned to, but is simply there to provide properties to a group of common child states. </p>
+
+<p>Keep in mind that objects that are resolved in the controller for a parent state will be inherited by the child states. So you should make sure not to change a parent's object in any way that will not work for a child. For example:</p>
+
+<pre><code>attr.name = "data." + attr.name
+</code></pre>
+
+<p>This may be a way we modify attr.name in a parent state. But if the child state expects the attr.name without the "data." in front of it, it will not run correctly.</p>
+
+<p>It is also possible to create more than one view per state. For example, if you had two different areas on your web application that you needed to correspond to one particular state, you could create views for each of them, which would correspond to your state but also have different templates. In order to do this, we would have to create two ui-views in our original HTML:</p>
+
+<pre><code>&lt;div ui-view="window1"&gt;&lt;/div&gt;
+&lt;div ui-view="window2"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Then, we can add a 'views' attribute in our $stateProvider:</p>
+
+<pre><code>$stateProvider.state('myState'{
+    views: {
+        'window1': {
+            templateUrl: 'window1.html'
+            controller: 'Window1Controller'
+        },
+        'window2': {
+            templateUrl: 'window2.html'
+            controller: 'Window2Controller'
+        }
+    }
+});
+</code></pre>
+
+<p>The 'views' attribute lets us specify what will be inserted into each of our ui-views. the name of the ui-view and the name of the corresponding view in the $stateProvider must be the same, so Angular will know how to match them. Then each view can have its own template, controller, and so on.</p>
+
+<p>Another important part of ui-router is being able to set URLs for specific views. This can be done by using the url property:</p>
+
+<pre><code>$stateProvider.state('myState',{
+    url: "/mystate"
+    templateUrl: 'myState.html'
+});
+</code></pre>
+
+<p>Here we set the URL that the web application will be directed to when myState is active. It will also cause myState to be active if you type in this URL. This URL is a continuation of whatever the ancestor HTML page is called; for example, if it was called index.html, the full URL would be index.html/mystate. In fact, a child state will combine their url with the url of its parent state. So, if we had a home page called index.html, a state with url: '/mystate', and a child state of that with url: '/childstate', then the full URL if the child state was active would be index.html/mystate/childstate.</p>
+
+<p>I think it is important to note the difference between url and templateUrl. url is the actual URL corresponding to the state you are in, and templateUrl is the template .html file that is inserted into your ui-view.</p>
+
+<p>Sometimes URLs have parameters in them. To specify a parameter in your url property, you can just add a colon, like this:</p>
+
+<pre><code>url: "/mystate/:id"
+</code></pre>
+
+<p>This allows your URL to direct to a specific URL dependent on that dynamic parameter.</p>
+
+<p>The things I've discussed here are just some of the basics of ui-router. It is a very elegant way to provide different ways of interacting and viewing your web application. There is more information on ui-router at github.com/angular-ui/ui-router.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
