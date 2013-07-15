@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="017c6024-cb2b-49b7-85c7-59a0e0119044" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cwilcox13.github.io.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="017c6024-cb2b-49b7-85c7-59a0e0119044" time="1373919287892" ignored="false" />
-    <file path="/index.html" changelist="017c6024-cb2b-49b7-85c7-59a0e0119044" time="1373919957702" ignored="false" />
+    <file path="/index.html" changelist="017c6024-cb2b-49b7-85c7-59a0e0119044" time="1373920053543" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +30,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="337" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.42009884">
+            <state line="21" column="296" selection-start="1003" selection-end="1003" vertical-scroll-proportion="0.42009884">
               <folding />
             </state>
           </provider>
@@ -236,7 +235,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="337" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.42009884">
+        <state line="21" column="296" selection-start="1003" selection-end="1003" vertical-scroll-proportion="0.42009884">
           <folding />
         </state>
       </provider>
