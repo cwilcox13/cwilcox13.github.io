@@ -19,11 +19,7 @@
           <a id="forkme_banner" href="https://github.com/cwilcox13">View on GitHub</a>
 
           <h1 id="project_title">Curtis's Frontleaf Blog</h1>
-          <h2 id="project_tagline">This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland specializing in driving customer value for SaaS companies. Want to learn more? Interested in an engineering position? Head over to <a href="http://www.frontleaf.com">www.frontleaf.com</a>!</h2>
-
-          <a href="#post2">Post 2: JUnit Testing</a>
-          </br>
-          <a href="#post1">Post 1: ui-router</a>
+          <h2 id="project_tagline">This is a blog about things I am learning during my internship at Frontleaf, a web application startup in Oakland.</h2>
 
         </header>
     </div>
@@ -32,7 +28,106 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="post2" class="anchor" href="#july-11-2013"><span class="octicon octicon-link"></span></a>July 11, 2013</h1>
+<a name="august-12-2013" class="anchor" href="#august-12-2013"><span class="octicon octicon-link"></span></a>August 12, 2013</h1>
+
+<p>As I stated before in my JUnit piece, I am learning a lot about unit testing here at Frontleaf. Unit testing is very convenient when you actually know how to do it, and when you actually put it into practice. JUnit is a unit testing framework specifically for Java. However, most of my work involves JavaScript (more specifically, CoffeeScript, but still), which means it is in my best interests to learn how to perform unit tests in JavaScript as well as Java. </p>
+
+<p>At Frontleaf, we are using the Jasmine framework for unit testing in JavaScript. Jasmine is an automated testing framework for the JavaScript programming language. One thing it is designed for is to make it easier to create and run unit tests in your JavaScript applications. </p>
+
+<p>Jasmine makes it easy to test features or functions in your program. For instance, imagine you have a simple function like this:</p>
+
+<pre><code>function myFunction(){
+    return 1
+}
+</code></pre>
+
+<p>Now imagine we would like to test this function using Jasmine:</p>
+
+<pre><code>describe('mySuite', function(){
+    it('should return 1', function(){
+        expect(myFunction()).toEqual(1);
+    });
+});
+</code></pre>
+
+<p>Let's take a look at each part of this code. First, we have a describe() function. This is called a suite. It basically describes the group of unit tests that you are performing, which allows you to group them in specific ways. The unit tests are outlined in an anonymous function inside of the suite. describe() also gives the suite a name, which in this case is 'mySuite'. Not very descriptive, but this is just an example. Inside this first anonymous function, we have the it() function. This is called a spec. This is basically where a specific unit test will be happening. You can have multiple specs in your test suite, so we could do something like this if we wanted:</p>
+
+<pre><code>describe('mySuite',function(){
+    it('should return 1', function(){
+        expect(myFunction()).toEqual(1);
+    });
+    it('should return 2', function(){
+        expect(myFunction2()).toEqual(2);
+    });
+});
+</code></pre>
+
+<p>This would provide tests for myFunction and another function that we haven't actually defined here called myFunction2. Each spec provides a description of the unit test, along with another anonymous function. This final anonymous function is where we actually run the unit test. Notice we have an expect() function in here. This is basically a way for us to check whether our test performs correctly. It is somewhat like an assertion statement in JUnit testing. If we say expect(myFunction()).toEqual(1), we are saying that we expect myFunction, when it executes, to return 1. There are many more things that you can do inside the spec, which we will go into.</p>
+
+<p>The actual unit tests for Jasmine should be kept in separate files from the source code that we are testing. In order to allow these files to collaborate with each other, we can create a test .html file and include both the source .js files and the test .js files in it.</p>
+
+<p>Remember our expect() statement from earlier; it included a toEqual() function. This toEqual() function is called a matcher in Jasmine. We can use matchers inside our expect() statement in order to specifically define what we expect our resulting test data to look like or how we expect it to behave. Jasmine includes many other different kinds of matchers that we can use, such as 'toBeDefined' (makes sure something is defined), 'toBeNull' (makes sure something is null), 'toBeTruthy' (makes sure a boolean value is true), 'toBeLessThan' (makes sure a value is less than another value), 'toContain' (makes sure an object contains a specific value or object), among others. This gives us a lot of different types of tests we can work with. </p>
+
+<p>What if you want to write a test and you can't find a good matcher for it? You can actually write your own matchers if you wish to. A good practice is to create your matcher using the beforeEach() statement, which causes anything inside it to occur before each test you write (there is also an afterEach() statement that you can use to make things occur after your tests, such as data cleanup). That way, you can have the matcher created for any test. This is what it might look like if I wanted to make a matcher that checked whether a string was a certain length:</p>
+
+<pre><code>beforeEach(function(){
+    this.addMatchers({
+        toBeTwoChars: function(){
+            return (this.actual.length == 2)
+        }
+    });
+});
+</code></pre>
+
+<p>As you can see, we use the beforeEach() function, and inside it, we call this.addMatchers, which lets us...add matchers. I name my matcher toBeTwoChars, and then I create a function that actually checks whether whatever is passed into toBeTwoChars is two characters long. I use this.actual because I am checking the actual content of the object I am passing in. I can then use this matcher like a regular one:</p>
+
+<pre><code>it('is to chars long', function(){
+    expect('hi').toBeTwoChars();
+});
+</code></pre>
+
+<p>Another cool part of Jasmine is the ability to use spies in your tests. A spy is basically part of your test that allows you to watch certain parts of your program to see what they do or how they act.</p>
+
+<p>If we have a function that calls another function, we can put a spy in it to make sure that it calls the other function correctly. Here is an example:</p>
+
+<pre><code>var Obj = function() {};
+
+Obj.Function1 = function(word){
+    return this.Function2 + word; 
+};
+
+Obj.Function2 = function(){
+    return "The word is ";
+};
+
+describe("mySuite", function(){
+    it("calls Function2()", function(){
+        var myObject = new Obj();
+        spyOn(myObject,"Function2");
+        myObject.Function1("apple");
+        expect(myObject.Function2).toHaveBeenCalled();
+    });
+}); 
+</code></pre>
+
+<p>So what is happening here? First, we are defining an object called Obj. Then, we are creating two functions that Obj can use: Function1 and Function2. As you can see, Function1 is actually calling Function2. This is what we want to test. So the next piece is to use a describe() function to create a test. Inside the describe(), we create a new Obj to test with. Then, we run spyOn(myObject,"Function2"); this will watch the Function2() method in the Obj we just created. Then, we run Function1() of the Obj, and we tell our test to expect that Function2() should have been called. Essentially, we are running Function1, but watching Function2 to make sure it is called as well. What if we want to make sure that Function1 is called with a specific argument (which in our case is "apple")? We can do that by changing our spy to:</p>
+
+<pre><code>spyOn(myObject,"Function1");
+</code></pre>
+
+<p>And then changing our expect() to:</p>
+
+<pre><code>expect(myObject.Function1).toHaveBeenCalledWith("apple");
+</code></pre>
+
+<p>Finally, we will look at some asynchronous testing. There are two main functions that help with asynchronous testing. The first one is runs(). If you put code in runs() functions, it just executes procedurally, so your code will run the way you write it.</p>
+
+<p>The second function is called waitsFor(). The waitsFor() function allows you to specifically wait until a certain condition is true before continuing on with your code. This is helpful when things are running asynchronously and you want to make sure your code is executing in the correct order and with the proper timing.</p>
+
+<p>These are some of the main aspects of Jasmine testing. Again, this is very useful for testing things in JavaScript, which is one of the languages I am using the most here at Frontleaf.</p>
+
+<h1>
+<a name="july-11-2013" class="anchor" href="#july-11-2013"><span class="octicon octicon-link"></span></a>July 11, 2013</h1>
 
 <p>As an intern at Frontleaf, I am learning a lot; one of the extremely important things I am learning about is unit testing. As a computer engineering major, I have learned what unit testing is, but I have never really had any experience in how to actually go about writing and running unit tests. It is a very useful skill to know, and it is quite helpful when developing a project.</p>
 
@@ -108,7 +203,7 @@ public void test1()...
 <p>JUnit tests are very useful when working with Eclipse; they allow a developer to more easily and thoroughly check their code to make sure it is working correctly. It is important to note the importance of actually writing tests for various features of your code. It is one thing to know how to write tests, and it is another to actually go about the practice of doing it. It can really help in the long run.</p>
 
 <h1>
-<a name="post1" class="anchor" href="#july-11-2013-1"><span class="octicon octicon-link"></span></a>July 11, 2013</h1>
+<a name="july-11-2013-1" class="anchor" href="#july-11-2013-1"><span class="octicon octicon-link"></span></a>July 11, 2013</h1>
 
 <p>One of the many important things I am learning as an intern at Frontleaf is about AngularJS. AngularJS is a JavaScript library that allows developers to configure HTML to change dynamically according to specific data; this makes it very suitable for web applications.</p>
 
